@@ -3,12 +3,13 @@
 #include "Hitable.h"
 #include "Ray.h"
 #include <Eigen/Eigen>
+#include "Material.h"
 
 class Sphere : public Hitable
 {
   public:
     Sphere() {}
-    Sphere(Eigen::Vector3d &center, double R);
+    Sphere(Eigen::Vector3d &center, double R, std::shared_ptr<Material> mat);
     Eigen::Vector3d normal(Eigen::Vector3d point) const;
     Eigen::Vector3d center() const { return m_center; }
     double R() { return m_R; }
@@ -17,6 +18,7 @@ class Sphere : public Hitable
 
   private:
     double m_R;
+    std::shared_ptr<Material> m_mat;
     Eigen::Vector3d m_center;
 };
 

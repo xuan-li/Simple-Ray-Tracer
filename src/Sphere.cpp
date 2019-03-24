@@ -1,6 +1,6 @@
 #include <Sphere.h>
 
-Sphere::Sphere(Eigen::Vector3d &center, double R) : m_R(R), m_center(center) {}
+Sphere::Sphere(Eigen::Vector3d &center, double R, std::shared_ptr<Material> mat) : m_R(R), m_center(center), m_mat(mat) {}
 
 Eigen::Vector3d Sphere::normal(Eigen::Vector3d point) const { return (point - m_center).normalized(); }
 
@@ -24,6 +24,7 @@ bool Sphere::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
             rec.t = temp;
             rec.p = r.point_at_parameter(rec.t);
             rec.normal = normal(rec.p);
+            rec.mat_ptr = m_mat;
             return true;
         }
     }

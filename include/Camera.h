@@ -1,8 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Ray.h"
 #include "ImageIO.h"
+#include "Ray.h"
 #include "Scene.h"
 
 class Camera
@@ -12,12 +12,10 @@ class Camera
     ~Camera();
     void take_photo(std::string filename, const Scene &world);
 
-	protected:
-    Eigen::Vector3d color(const Ray &r, const Scene &world);
+  protected:
+    Eigen::Vector3d color(const Ray &r, const Scene &world, int depth = 0);
     Eigen::Vector3i ppm(Eigen::Vector3d &col);
     Ray get_ray(double u, double v);
-    Eigen::Vector3d random_in_unit_sphere();
-
 
   private:
     Eigen::Vector3d m_lower_left_corner; // the screen position in the world coordinate system;
@@ -27,8 +25,6 @@ class Camera
     int w;
     int h;
     int ns;
-	
 };
-
 
 #endif // !CAMERA_H

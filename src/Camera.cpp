@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Utilities.h"
 #include <memory>
 
 Camera::Camera() : ns(100), w(200), h(100), m_lower_left_corner(-2.0, -1.0, -1.0), m_horizontal(4.0, 0.0, 0.0), m_vertical(0.0, 2.0, 0.0), m_origin(0, 0, 0) {}
@@ -45,16 +46,18 @@ void Camera::take_photo(std::string filename, const Scene &world)
     image.output(filename);
 }
 
-Eigen::Vector3d Camera::color(const Ray &r, const Scene &world)
+Eigen::Vector3d Camera::color(const Ray &r, const Scene &world, int depth)
 {
     HitRecord rec;
     Eigen::Vector3d col;
     if (world.hit(r, 0.001, std::numeric_limits<double>::max(), rec))
     {
-        Eigen::Vector3d target = rec.p + rec.normal + random_in_unit_sphere();
-        Eigen::Vector3d d = target - rec.p;
-        Ray reflected_ray(rec.p, d);
-        return 0.5 * color(reflected_ray, world);
+        Ray scattered;
+        Eigen::Vector3d attenuation;
+        if (depth < 50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+            return attenuation.cwiseProduct(color(scattered, world, depth + 1));
+        else
+            return Eigen::Vector3d(0, 0, 0);
     }
     else
     {
@@ -70,17 +73,4 @@ Ray Camera::get_ray(double u, double v)
 {
     Eigen::Vector3d target = m_lower_left_corner + u * m_horizontal + v * m_vertical;
     return Ray(m_origin, target);
-}
-
-Eigen::Vector3d Camera::random_in_unit_sphere()
-{
-    Eigen::Vector3d p;
-    do
-    {
-        double x = double(rand()) / double(RAND_MAX + 1);
-        double y = double(rand()) / double(RAND_MAX + 1);
-        double z = double(rand()) / double(RAND_MAX + 1);
-        p = 2.0 * Eigen::Vector3d(x, y, z).array() - 1;
-    } while (p.norm() >= 1.0);
-    return p;
 }
