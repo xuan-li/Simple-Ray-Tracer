@@ -10,16 +10,18 @@ void Image::output(std::string filename)
     int w = width();
     int h = height();
 
-    fstream f(filename);
+    ofstream f(filename);
     f << "P3" << endl;
     f << w << " " << h << endl;
+    f << "255" << endl;
     for (int j = 0; j < h; ++j)
     {
         for (int i = 0; i < w; ++i)
         {
-            f << data[j][i] << endl;
+            f << data[j][i].transpose() << endl;
         }
     }
+    f.close();
 }
 
 void Image::assign(int w, int h, Eigen::Vector3i &color) { data[h][w] = color; }

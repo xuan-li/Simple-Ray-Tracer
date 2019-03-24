@@ -69,8 +69,19 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(ImageIO include/ImageIO.h src/ImageIO.cpp)
 
-add_library(RayTracer include/Hitable.h include/Sphere.h include/Ray.h include/Scene.h src/Ray.cpp src/Scene.cpp src/Sphere.cpp src/Hitable.cpp)
-target_link_libraries(RayTracer Object)
+set(RAYTRACER_HEADERS 
+    include/Hitable.h 
+    include/Sphere.h 
+    include/Ray.h 
+    include/Scene.h
+    include/Camera.h)
+
+set(RAYTRACER_SOURCES
+    src/Sphere.cpp 
+     src/Scene.cpp 
+     src/Camera.cpp)
+add_library(RayTracer ${RAYTRACER_HEADERS} ${RAYTRACER_SOURCES})
+target_link_libraries(RayTracer ImageIO)
 
 # if you need dependencies:
 # public mean the libraries are used in public APIs
