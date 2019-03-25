@@ -8,9 +8,9 @@
 class Camera
 {
   public:
-    Camera(Eigen::Vector3d lookfrom, Eigen::Vector3d lootat, Eigen::Vector3d vup, double vfov, double aspect);
+    Camera(Eigen::Vector3d lookfrom, Eigen::Vector3d lootat, Eigen::Vector3d vup, double vfov, double aspect, double aperture, double focus_dist);
     ~Camera();
-    void take_photo(std::string filename, const Scene &world);
+    void take_photo(std::string filename, const Scene &world, int w, int h, int ns);
 
   protected:
     Eigen::Vector3d color(const Ray &r, const Scene &world, int depth = 0);
@@ -22,9 +22,8 @@ class Camera
     Eigen::Vector3d m_horizontal;        // the screen horizontal span;
     Eigen::Vector3d m_vertical;          // the screen vertical span;
     Eigen::Vector3d m_origin;            // the origin of all rays, emit from the camera.
-    int w;
-    int h;
-    int ns;
+    Eigen::Vector3d vertical_right, vertical_up, backward;
+    double lens_radius;
 };
 
 #endif // !CAMERA_H

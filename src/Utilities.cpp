@@ -5,9 +5,9 @@ Eigen::Vector3d random_in_unit_sphere()
     Eigen::Vector3d p;
     do
     {
-        double x = double(rand()) / double(RAND_MAX + 1);
-        double y = double(rand()) / double(RAND_MAX + 1);
-        double z = double(rand()) / double(RAND_MAX + 1);
+        double x = random01();
+        double y = random01();
+        double z = random01();
         p = 2.0 * Eigen::Vector3d(x, y, z).array() - 1;
     } while (p.norm() >= 1.0);
     return p;
@@ -35,3 +35,5 @@ double schlick(double cosine, double ref_idx)
     r0 = r0 * r0;
     return r0 + (1 - r0) * pow((1 - cosine), 5);
 }
+
+double random01() { return double(rand()) / double(RAND_MAX + 1); }

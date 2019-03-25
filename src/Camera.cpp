@@ -8,11 +8,11 @@
 #endif // !M_PI
 
 
-Camera::Camera(Eigen::Vector3d lookfrom, Eigen::Vector3d lootat, Eigen::Vector3d vup, double vfov, double aspect)
+Camera::Camera(Eigen::Vector3d lookfrom, Eigen::Vector3d lootat, Eigen::Vector3d vup, double vfov, double aspect, double aperture, double focus_dist)
 {
     using namespace Eigen;
     
-	Vector3d vertical_right, vertical_up, backward;
+	
     double theta = vfov * M_PI / 180;
     double half_height = tan(theta / 2);
     double half_width = aspect * half_height;
@@ -20,17 +20,16 @@ Camera::Camera(Eigen::Vector3d lookfrom, Eigen::Vector3d lootat, Eigen::Vector3d
     backward = (lookfrom - lootat).normalized();
     vertical_right = vup.cross(backward).normalized();
     vertical_up = backward.cross(vertical_right);
-    ns = 10;
-    h = 600;
-    w = aspect * h;
-    m_lower_left_corner = m_origin - half_width * vertical_right - half_height * vertical_up - backward;
+    m_lower_left_corner = m_origin - half_width * vertical_right - half_height * vertical_up - focus_dist * backward;
     m_horizontal = 2 * half_width * vertical_right;
     m_vertical = 2 * half_height * vertical_up;
+
+	lens_radius = aperture / 2;
 }
 
 Camera::~Camera() {}
 
-void Camera::take_photo(std::string filename, const Scene &world)
+void Camera::take_photo(std::string filename, const Scene &world, int w, int h, int ns)
 {
     Image image(w, h);
 
@@ -38,8 +37,8 @@ void Camera::take_photo(std::string filename, const Scene &world)
     std::vector<double> vs(ns);
     for (int s = 0; s < ns; ++s)
     {
-        us[s] = double(rand()) / double(RAND_MAX + 1);
-        vs[s] = double(rand()) / double(RAND_MAX + 1);
+        us[s] = random01();
+        vs[s] = random01();
     }
 
     for (int j = h - 1; j >= 0; --j)
@@ -91,7 +90,8 @@ Eigen::Vector3i Camera::ppm(Eigen::Vector3d &col) { return (255.99 * col).cast<i
 
 Ray Camera::get_ray(double u, double v)
 {
-	
-    Eigen::Vector3d direction = m_lower_left_corner + u * m_horizontal + v * m_vertical - m_origin;
-    return Ray(m_origin, direction);
+    Eigen::Vector3d rd = lens_radius * random_in_unit_sphere();
+    Eigen::Vector3d offset = vertical_right * rd(0) + vertical_up * rd(1); 
+    Eigen::Vector3d direction = m_lower_left_corner + u * m_horizontal + v * m_vertical - m_origin - offset;
+    return Ray(m_origin + offset, direction);
 }

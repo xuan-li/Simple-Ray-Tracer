@@ -57,7 +57,7 @@ bool Dielectric::scatter(const Ray &r_in, const HitRecord &rec, Eigen::Vector3d 
         reflect_prob = 1.0;
     }
 
-    if (double(rand()) / double(RAND_MAX + 1) < reflect_prob)
+    if (random01() < reflect_prob)
     {
         scattered = Ray(rec.p, reflected);
     }

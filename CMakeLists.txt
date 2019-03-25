@@ -69,7 +69,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(ImageIO include/ImageIO.h src/ImageIO.cpp)
 
-set(RAYTRACER_HEADERS 
+set(RAYTRACER_HEADERS
+    include/Utilities.h
+    include/Material.h 
     include/Hitable.h 
     include/Sphere.h 
     include/Ray.h 
@@ -77,6 +79,8 @@ set(RAYTRACER_HEADERS
     include/Camera.h)
 
 set(RAYTRACER_SOURCES
+    src/Utilities.cpp
+    src/Material.cpp
     src/Sphere.cpp 
      src/Scene.cpp 
      src/Camera.cpp)
