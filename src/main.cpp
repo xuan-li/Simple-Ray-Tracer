@@ -10,13 +10,16 @@ int main(int argc, char **argv)
     auto sphere1 = std::make_shared<Sphere>(Sphere(Eigen::Vector3d(0, 0, -1), 0.5, mat1));
     scene.add_object(sphere1);
 
-    auto mat2 = std::make_shared<Metal>(Metal(Eigen::Vector3d(0.8, 0.6, 0.2)));
+    auto mat2 = std::make_shared<Metal>(Metal(Eigen::Vector3d(0.8, 0.6, 0.2), 0.3));
     auto sphere2 = std::make_shared<Sphere>(Sphere(Eigen::Vector3d(1, 0, -1), 0.5, mat2));
     scene.add_object(sphere2);
 
-    auto mat3 = std::make_shared<Metal>(Metal(Eigen::Vector3d(0.8, 0.8, 0.8)));
-    auto sphere3 = std::make_shared<Sphere>(Sphere(Eigen::Vector3d(-1, 0, -1), 0.5, mat3));
-    scene.add_object(sphere3);
+    auto mat3 = std::make_shared<Dielectric>(Dielectric(1.5));
+    //auto sphere3 = std::make_shared<Sphere>(Sphere(Eigen::Vector3d(-1, 0, -1), 0.5, mat3));
+    //scene.add_object(sphere3);
+
+    auto sphere5 = std::make_shared<Sphere>(Sphere(Eigen::Vector3d(-1, 0, -1), -0.45, mat3));
+        scene.add_object(sphere5);
 
     // use a ball as the floor;
     auto mat4 = std::make_shared<Lambertian>(Lambertian(Eigen::Vector3d(0.8, 0.8, 0.0)));

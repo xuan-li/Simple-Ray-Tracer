@@ -2,7 +2,7 @@
 
 Sphere::Sphere(Eigen::Vector3d &center, double R, std::shared_ptr<Material> mat) : m_R(R), m_center(center), m_mat(mat) {}
 
-Eigen::Vector3d Sphere::normal(Eigen::Vector3d point) const { return (point - m_center).normalized(); }
+Eigen::Vector3d Sphere::normal(Eigen::Vector3d point) const { return (point - m_center)/m_R; }
 
 bool Sphere::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 {
