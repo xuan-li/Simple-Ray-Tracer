@@ -7,3 +7,6 @@ Implement a CPU ray tracer following the instructions on [Ray Tracing in One Wee
 ### Dependencies:
 - Eigen3
 
+### Experiment
+
+![Balls](screen.png)
