@@ -1,17 +1,31 @@
 #include "Camera.h"
 #include "Utilities.h"
 #include <memory>
+#include <math.h>
 
-Camera::Camera()
+#ifndef M_PI
+#define M_PI 3.141592654
+#endif // !M_PI
+
+
+Camera::Camera(Eigen::Vector3d lookfrom, Eigen::Vector3d lootat, Eigen::Vector3d vup, double vfov, double aspect)
 {
     using namespace Eigen;
-    ns = 100;
-    w = 400;
-    h = 100;
-    m_lower_left_corner = Vector3d(-4, -1, -1);
-    m_horizontal = Vector3d(8, 0, 0);
-    m_vertical = Vector3d(0, 2, 0);
-    m_origin.setZero();
+    
+	Vector3d vertical_right, vertical_up, backward;
+    double theta = vfov * M_PI / 180;
+    double half_height = tan(theta / 2);
+    double half_width = aspect * half_height;
+    m_origin = lookfrom;
+    backward = (lookfrom - lootat).normalized();
+    vertical_right = vup.cross(backward).normalized();
+    vertical_up = backward.cross(vertical_right);
+    ns = 10;
+    h = 600;
+    w = aspect * h;
+    m_lower_left_corner = m_origin - half_width * vertical_right - half_height * vertical_up - backward;
+    m_horizontal = 2 * half_width * vertical_right;
+    m_vertical = 2 * half_height * vertical_up;
 }
 
 Camera::~Camera() {}
@@ -77,6 +91,7 @@ Eigen::Vector3i Camera::ppm(Eigen::Vector3d &col) { return (255.99 * col).cast<i
 
 Ray Camera::get_ray(double u, double v)
 {
-    Eigen::Vector3d target = m_lower_left_corner + u * m_horizontal + v * m_vertical;
-    return Ray(m_origin, target);
+	
+    Eigen::Vector3d direction = m_lower_left_corner + u * m_horizontal + v * m_vertical - m_origin;
+    return Ray(m_origin, direction);
 }

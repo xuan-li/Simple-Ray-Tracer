@@ -8,7 +8,7 @@
 class Camera
 {
   public:
-    Camera();
+    Camera(Eigen::Vector3d lookfrom, Eigen::Vector3d lootat, Eigen::Vector3d vup, double vfov, double aspect);
     ~Camera();
     void take_photo(std::string filename, const Scene &world);
 
