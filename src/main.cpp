@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 
     Eigen::Vector3d look_from(20, 3, 4);
     Eigen::Vector3d look_at(0, 0.5, 0);
-    Camera camera(look_from, look_at, Eigen::Vector3d(0, 1, 0), 90, 1200. / 800., 0.1, 10);
+    Camera camera(look_from, look_at, Eigen::Vector3d(0, 1, 0), 90, 1200. / 800., 0.01, 10);
     camera.take_photo("screen.ppm", scene, 1200, 800, 100);
     return 0;
 }
