@@ -9,4 +9,7 @@ bool refract(const Eigen::Vector3d &v, const Eigen::Vector3d &n, double ni_over_
 double schlick(double cosine, double ref_idx);
 double random01();
 
+void printProgress(double percentage);
+
+
 #endif // !UTILITIES

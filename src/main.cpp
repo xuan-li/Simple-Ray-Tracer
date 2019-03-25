@@ -78,9 +78,9 @@ int main(int argc, char **argv)
     // auto sphere4 = std::make_shared<Sphere>(Sphere(Eigen::Vector3d(0, -100.5, -1), 100, mat4));
     // scene.add_object(sphere4);
 
-    Eigen::Vector3d look_from(13, 2, 3);
-    Eigen::Vector3d look_at(0, 0, 0);
-    Camera camera(look_from, look_at, Eigen::Vector3d(0, 1, 0), 20, 1200. / 800., 0.1, 10.0);
-    camera.take_photo("screen.ppm", scene, 1200, 800, 10);
+    Eigen::Vector3d look_from(20, 3, 4);
+    Eigen::Vector3d look_at(0, 0.5, 0);
+    Camera camera(look_from, look_at, Eigen::Vector3d(0, 1, 0), 90, 1200. / 800., 0.1, 10);
+    camera.take_photo("screen.ppm", scene, 1200, 800, 100);
     return 0;
 }

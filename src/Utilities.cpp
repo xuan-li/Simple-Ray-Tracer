@@ -37,3 +37,12 @@ double schlick(double cosine, double ref_idx)
 }
 
 double random01() { return double(rand()) / double(RAND_MAX + 1); }
+
+void printProgress(double percentage)
+{
+    int val = (percentage * 100);
+    int lpad = (percentage * 60);
+    int rpad = 60 - lpad;
+    printf("\r%3d%% [%.*s%*s]", val, lpad, "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||", rpad, "");
+    fflush(stdout);
+}

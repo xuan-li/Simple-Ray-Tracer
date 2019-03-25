@@ -40,7 +40,8 @@ void Camera::take_photo(std::string filename, const Scene &world, int w, int h, 
         us[s] = random01();
         vs[s] = random01();
     }
-
+    std::cout << "Start rendering ..." << std::endl;
+    int n_pixels = w * h;
     for (int j = h - 1; j >= 0; --j)
         for (int i = 0; i < w; ++i)
         {
@@ -62,6 +63,9 @@ void Camera::take_photo(std::string filename, const Scene &world, int w, int h, 
             col /= ns;
             col = col.cwiseSqrt();
             image.assign(i, h - 1 - j, ppm(col));
+
+			double percentage = double(j * w + i + 1) / double(n_pixels);
+            printProgress(1 - percentage);
         }
     image.output(filename);
 }
