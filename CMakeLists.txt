@@ -16,7 +16,7 @@ endif()
 
 
 
-###################### user-selected option ####################
+###################### OpenMP ####################
 option(WITH_OPENMP "Enable OpenMP support?" ON)
 if(WITH_OPENMP)
  find_package(OpenMP REQUIRED)
@@ -51,19 +51,6 @@ endif()
 set(EIGEN3_INCLUDE_DIR "EIGEN3-NOT-FOUND" CACHE PATH "Eigen3 include dir")
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-
-####################### precompiled dependencies ####################
-
-# find_package(OpenCV REQUIRED)
-
-
-##################### import files ################
-
-# if you want to import all:
-
-# file(GLOB SOURCES src/*.cpp)
-# file(GLOB HEADERS include/*.h)
-
 ####################### add library #########################
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -86,12 +73,6 @@ set(RAYTRACER_SOURCES
      src/Camera.cpp)
 add_library(RayTracer ${RAYTRACER_HEADERS} ${RAYTRACER_SOURCES})
 target_link_libraries(RayTracer ImageIO)
-
-# if you need dependencies:
-# public mean the libraries are used in public APIs
-
-#target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC ${OpenCV_LIBRARIES})
-#target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${OpenCV_INCLUDE_DIRS})
 
 ######################## add executable ##########################
 
