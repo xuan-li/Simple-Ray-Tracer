@@ -10,3 +10,6 @@ Implement a CPU ray tracer following the instructions on [Ray Tracing in One Wee
 ### Experiment
 
 ![Balls](screen.png)
+
+### TODO:
+[Ray Tracing: The Next Week](https://github.com/petershirley/raytracingthenextweek)
